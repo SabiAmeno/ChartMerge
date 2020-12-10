@@ -1,7 +1,7 @@
 #include "QKD_Qt5_Interface.h"
 #include <QtCharts/QSplineSeries>
 #include <QtCharts/QScatterSeries>
-
+#include <time.h>
 
 void SetCurveAttr(QXYSeries* series)
 {
@@ -24,11 +24,25 @@ QKD_Qt5_Interface::QKD_Qt5_Interface(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+
+    __timer.setInterval(200);
+    __timer.start();
+    connect(&__timer, &QTimer::timeout, this, &QKD_Qt5_Interface::GenNewDatas);
+
+    Test_Init();
+}
+
+void QKD_Qt5_Interface::GenNewDatas()
+{
+    int d = rand() % 100;
+    ui.graphicsView->UpdateSeries("Curve1", d);
 }
 
 void QKD_Qt5_Interface::Test_Init()
 {
     int i = 0;
+    srand(time(NULL));
+
     auto gvs = { ui.graphicsView, ui.graphicsView_2, ui.graphicsView_3, ui.graphicsView_4 };
     for (auto gv : gvs) {
         QXYSeries* series = NULL;

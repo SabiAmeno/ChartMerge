@@ -58,9 +58,16 @@ public:
 
     void AddSeries(const QString& name, QXYSeries* series, SET_ATTR_FUNC func);
     void UpdateSeries(const QString& name, const QVector<QPointF>& data);
+    void UpdateSeries(const QString& name, double pt);
     void SetLegendVisible(bool vi);
+    void HighlightVertices(bool h);
+
+    void SetAxisXScope(int scope) { __MAX_X_SCOPE = scope; }
 protected:
     virtual void mouseMoveEvent(QMouseEvent* event) override;
+
+private:
+    void updateAxisRange(const QVector<QPointF>& data);
 private:
     QChart* __chart;
 
@@ -71,4 +78,11 @@ private:
 
     QMap<QString, QXYSeries*> __series;
     QMap<QString, StatLegend*> __legends;
+    QMap<QXYSeries*, QScatterSeries*> __assoc_scatter;
+
+    double __axisX_min, __axisX_max;
+    double __axisY_min, __axisY_max;
+
+    bool __highlight_vertices = true;
+    int __MAX_X_SCOPE = 100;
 };
