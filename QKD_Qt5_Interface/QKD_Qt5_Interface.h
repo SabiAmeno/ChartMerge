@@ -14,6 +14,8 @@ public:
 
 private slots:
     void GenNewDatas();
+    void ShowGraphVertices(bool chkd);
+    void StartTimer(bool chkd);
 private:
     void Test_Init();
 private:
